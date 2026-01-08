@@ -5,7 +5,7 @@ const BASE_URL = 'https://fakestoreapi.com';
 // Create axios instance with base configuration
 const api = axios.create({
   baseURL: BASE_URL,
-  timeout: 10000,
+  timeout: 30000, // Increased timeout to 30 seconds
   headers: {
     'Content-Type': 'application/json',
   },

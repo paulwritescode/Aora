@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useProducts, useCategories, useProductsByCategory } from '../hooks/Products';
 import { Product } from '../api/fakestore';
+import { ProductCardSkeleton } from './ui/skeleton';
 
 const FakeStoreDemo: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
@@ -52,9 +53,10 @@ const FakeStoreDemo: React.FC = () => {
 
       {/* Loading State */}
       {isLoading && (
-        <div className="flex justify-center items-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-          <span className="ml-3 text-gray-600">Loading products...</span>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {[...Array(8)].map((_, i) => (
+            <ProductCardSkeleton key={i} />
+          ))}
         </div>
       )}
 
@@ -83,11 +85,11 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const [imageError, setImageError] = useState(false);
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-      <div className="aspect-square bg-gray-100 relative">
+    <div className="bg-card rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border border-border">
+      <div className="aspect-square bg-muted relative">
         {imageLoading && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-400"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-2 border-accent border-t-transparent"></div>
           </div>
         )}
         {!imageError ? (
@@ -102,7 +104,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
             }}
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-gray-400">
+          <div className="w-full h-full flex items-center justify-center text-muted-foreground">
             <span>Image not available</span>
           </div>
         )}

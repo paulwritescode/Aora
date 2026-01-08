@@ -8,7 +8,7 @@ function Layout() {
   return (
     <ThemeProvider defaultTheme="light" storageKey="aora-ui-theme">
       <CartProvider>
-        <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white">
+        <div className="min-h-screen bg-background text-foreground">
           <Sidebar />
           <div className="ml-64">
             <Header />
@@ -21,5 +21,6 @@ function Layout() {
     </ThemeProvider>
   );
 }
+
 
 export default Layout;

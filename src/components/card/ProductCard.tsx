@@ -50,8 +50,8 @@ function ProductCard({
     const numPrice = parseFloat(price);
     if (!isNaN(numPrice)) {
       addToCart({
-        id,
-        name: title,
+        id: id.toString(),
+        title: title,
         price: numPrice,
       });
     }

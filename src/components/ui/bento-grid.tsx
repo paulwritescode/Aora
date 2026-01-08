@@ -1,17 +1,7 @@
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Lock, Smartphone, Globe, Star, ShoppingCart, Heart } from "lucide-react"
-
-interface Product {
-  id: number;
-  name: string;
-  price: string;
-  image_link: string;
-  brand: string;
-  rating?: number;
-  product_type: string;
-  description?: string;
-}
+import { Product } from "@/api/fakestore"
 
 interface BentoGridProps {
   products: Product[];
@@ -114,8 +104,8 @@ function ProductCard({ product, onAddToCart }: {
     <div className="relative h-full flex flex-col">
       <div className="flex-1 relative overflow-hidden rounded-lg">
         <img 
-          src={product.image_link || "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400"} 
-          alt={product.name}
+          src={product.image || "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400"} 
+          alt={product.title}
           className="w-full h-full object-cover"
           onError={(e) => {
             e.currentTarget.src = "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400"
@@ -161,9 +151,9 @@ function ProductCard({ product, onAddToCart }: {
               />
             ))}
           </div>
-          <h4 className="text-white font-medium text-sm line-clamp-1">{product.name}</h4>
-          <p className="text-gray-300 text-xs">{product.brand}</p>
-          <p className="text-white font-bold text-sm">${product.price || '0.00'}</p>
+          <h4 className="text-white font-medium text-sm line-clamp-1">{product.title}</h4>
+          <p className="text-gray-300 text-xs">{product.category}</p>
+          <p className="text-white font-bold text-sm">${product.price.toFixed(2)}</p>
         </div>
       </div>
     </div>

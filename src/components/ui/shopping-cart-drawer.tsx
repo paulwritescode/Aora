@@ -14,18 +14,20 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
-import { Minus, Plus, ShoppingCart, Trash2 } from 'lucide-react';
+import { MinusIcon, PlusIcon, ShoppingCartIcon, Trash2Icon } from '@/lib/icons';
 import { useCart } from '@/context/CartContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function ShoppingCartDrawer() {
   const { items, updateQuantity, removeFromCart, clearCart, getTotalItems, getTotalPrice } = useCart();
+  const navigate = useNavigate();
   const [promoCode, setPromoCode] = React.useState('');
 
-  const handleUpdateQuantity = (id: number, newQuantity: number) => {
+  const handleUpdateQuantity = (id: string, newQuantity: number) => {
     updateQuantity(id, newQuantity);
   };
 
-  const handleRemoveItem = (id: number) => {
+  const handleRemoveItem = (id: string) => {
     removeFromCart(id);
   };
 
@@ -35,7 +37,15 @@ export default function ShoppingCartDrawer() {
   const total = subtotal + shipping + tax;
 
   const handleCheckout = () => {
-    alert(`Proceeding to checkout with ${getTotalItems()} items for $${total.toFixed(2)}`);
+    // Close the drawer and navigate to checkout
+    const drawerTrigger = document.querySelector('[data-slot="drawer-trigger"]') as HTMLElement;
+    if (drawerTrigger) {
+      drawerTrigger.click(); // This will close the drawer
+    }
+    // Small delay to ensure drawer closes before navigation
+    setTimeout(() => {
+      navigate('/checkout');
+    }, 100);
   };
 
   const applyPromoCode = () => {
@@ -48,13 +58,13 @@ export default function ShoppingCartDrawer() {
   };
 
   return (
-    <Drawer>
+    <Drawer direction="right">
       <DrawerTrigger asChild>
         <Button variant="outline" className="relative">
-          <ShoppingCart className="w-4 h-4 mr-2" />
+          <ShoppingCartIcon className="w-4 h-4 mr-2" />
           Cart
           {getTotalItems() > 0 && (
-            <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
+            <span className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground rounded-full w-5 h-5 text-xs flex items-center justify-center">
               {getTotalItems()}
             </span>
           )}
@@ -64,7 +74,7 @@ export default function ShoppingCartDrawer() {
       <DrawerContent>
         <DrawerHeader>
           <DrawerTitle className="flex items-center gap-2">
-            <ShoppingCart className="w-5 h-5" />
+            <ShoppingCartIcon className="w-5 h-5" />
             Shopping Cart ({getTotalItems()} items)
           </DrawerTitle>
           <DrawerDescription>
@@ -75,8 +85,8 @@ export default function ShoppingCartDrawer() {
         <DrawerBody className="max-h-[60vh] overflow-y-auto">
           {items.length === 0 ? (
             <div className="text-center py-8">
-              <ShoppingCart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-500 mb-4">Your cart is empty</p>
+              <ShoppingCartIcon className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+              <p className="text-muted-foreground mb-4">Your cart is empty</p>
               <DrawerClose asChild>
                 <Button variant="outline">Continue Shopping</Button>
               </DrawerClose>
@@ -89,19 +99,19 @@ export default function ShoppingCartDrawer() {
                     {item.image ? (
                       <img 
                         src={item.image} 
-                        alt={item.name}
+                        alt={item.title}
                         className="w-full h-full object-cover"
                         onError={(e) => {
                           e.currentTarget.src = "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=100"
                         }}
                       />
                     ) : (
-                      <ShoppingCart className="w-6 h-6 text-gray-400" />
+                      <ShoppingCartIcon className="w-6 h-6 text-muted-foreground" />
                     )}
                   </div>
                   
                   <div className="flex-1">
-                    <h3 className="font-medium">{item.name}</h3>
+                    <h3 className="font-medium">{item.title}</h3>
                     <p className="text-sm text-gray-500">${item.price.toFixed(2)} each</p>
                   </div>
 
@@ -112,7 +122,7 @@ export default function ShoppingCartDrawer() {
                       className="h-8 w-8"
                       onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
                     >
-                      <Minus className="w-3 h-3" />
+                      <MinusIcon className="w-3 h-3" />
                     </Button>
                     <span className="w-8 text-center text-sm">{item.quantity}</span>
                     <Button
@@ -121,7 +131,7 @@ export default function ShoppingCartDrawer() {
                       className="h-8 w-8"
                       onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
                     >
-                      <Plus className="w-3 h-3" />
+                      <PlusIcon className="w-3 h-3" />
                     </Button>
                   </div>
 
@@ -130,10 +140,10 @@ export default function ShoppingCartDrawer() {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="text-red-600 hover:bg-red-50 dark:hover:bg-red-950 mt-1"
+                      className="text-destructive hover:bg-destructive/10 mt-1"
                       onClick={() => handleRemoveItem(item.id)}
                     >
-                      <Trash2 className="w-3 h-3" />
+                      <Trash2Icon className="w-3 h-3" />
                     </Button>
                   </div>
                 </div>
@@ -180,7 +190,7 @@ export default function ShoppingCartDrawer() {
               <div className="border-t pt-4">
                 <Button 
                   variant="outline" 
-                  className="w-full text-red-600 hover:bg-red-50 dark:hover:bg-red-950"
+                  className="w-full text-destructive hover:bg-destructive/10"
                   onClick={clearCart}
                 >
                   Clear Cart

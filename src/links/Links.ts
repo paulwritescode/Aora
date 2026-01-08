@@ -4,12 +4,16 @@ export const navlinks = [
     href: "/",
   },
   {
-    name: "Products",
-    href: "/products",
+    name: "Popular",
+    href: "/popular",
   },
   {
-    name: "Bento Grid",
-    href: "/bento",
+    name: "Fashion",
+    href: "/clothes",
+  },
+  {
+    name: "Beauty",
+    href: "/makeup",
   },
   {
     name: "Cart Demo",

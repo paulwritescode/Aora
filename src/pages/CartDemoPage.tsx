@@ -47,8 +47,8 @@ function CartDemoPage() {
 
   const handleAddToCart = (product: typeof sampleProducts[0]) => {
     addToCart({
-      id: product.id,
-      name: product.name,
+      id: product.id.toString(),
+      title: product.name,
       price: product.price,
       image: product.image
     });
@@ -110,9 +110,9 @@ function CartDemoPage() {
                 <Button
                   onClick={() => handleAddToCart(product)}
                   className="w-full"
-                  disabled={items.some(item => item.id === product.id)}
+                  disabled={items.some(item => item.id === product.id.toString())}
                 >
-                  {items.some(item => item.id === product.id) ? 'Added to Cart' : 'Add to Cart'}
+                  {items.some(item => item.id === product.id.toString()) ? 'Added to Cart' : 'Add to Cart'}
                 </Button>
               </div>
             </motion.div>

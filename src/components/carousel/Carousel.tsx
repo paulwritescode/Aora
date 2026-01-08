@@ -1,18 +1,9 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { getProducts } from "@/hooks/Products";
+import { fakeStoreAPI, Product } from "@/api/fakestore";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "../ui/button";
-
-interface Product {
-  id: number;
-  name: string;
-  image_link: string;
-  description: string;
-  price: string;
-  product_type: string;
-  brand: string;
-}
+import { Skeleton } from "../ui/skeleton";
 
 function Carousel() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -20,7 +11,7 @@ function Carousel() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getProducts().then((fetchedProducts) => {
+    fakeStoreAPI.products.getAll().then((fetchedProducts) => {
       if (fetchedProducts) {
         // Get first 6 products for carousel
         setProducts(fetchedProducts.slice(0, 6));
@@ -46,12 +37,8 @@ function Carousel() {
 
   if (loading) {
     return (
-      <div className="w-full h-96 bg-gray-100 dark:bg-neutral-800 rounded-xl flex items-center justify-center">
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-          className="w-8 h-8 border-4 border-pink-200 border-t-pink-600 rounded-full"
-        />
+      <div className="w-full h-96 bg-card rounded-xl flex items-center justify-center border border-border">
+        <Skeleton className="w-full h-full rounded-xl" />
       </div>
     );
   }
@@ -86,10 +73,10 @@ function Carousel() {
                   whileHover={{ scale: 1.05 }}
                   className="w-64 h-64 rounded-2xl overflow-hidden shadow-2xl"
                 >
-                  {product.image_link ? (
+                  {product.image ? (
                     <img
-                      src={product.image_link}
-                      alt={product.name}
+                      src={product.image}
+                      alt={product.title}
                       className="w-full h-full object-cover"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
@@ -112,11 +99,11 @@ function Carousel() {
                   transition={{ delay: 0.2 }}
                 >
                   <div className="inline-block bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 px-3 py-1 rounded-full text-sm font-medium mb-4">
-                    {product.product_type}
+                    {product.category}
                   </div>
                   
                   <h3 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4 line-clamp-2">
-                    {product.name}
+                    {product.title}
                   </h3>
                   
                   <p className="text-gray-600 dark:text-gray-300 mb-6 line-clamp-3 max-w-md">
@@ -125,10 +112,8 @@ function Carousel() {
                   
                   <div className="flex items-center justify-center md:justify-start gap-4 mb-6">
                     <span className="text-2xl font-bold text-pink-600 dark:text-pink-400">
-                      {product.price ? `$${parseFloat(product.price).toFixed(2)}` : "Price on request"}
+                      ${product.price.toFixed(2)}
                     </span>
-                    <span className="text-gray-500 dark:text-gray-400">•</span>
-                    <span className="text-gray-600 dark:text-gray-400">{product.brand}</span>
                   </div>
                   
                   <Button className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white px-8 py-3 rounded-full">
