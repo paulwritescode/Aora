@@ -13,7 +13,8 @@ import CheckoutPage from "@/pages/CheckoutPage";
 function ProjectRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
+      <Route path="/" element={<PopularPage />} />
+      <Route path="/home" element={<HomePage />} />
       <Route path="/popular" element={<PopularPage />} />
       <Route path="/clothes" element={<ClothesPage />} />
       <Route path="/makeup" element={<MakeupPage />} />

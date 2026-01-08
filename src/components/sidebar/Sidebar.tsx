@@ -11,7 +11,7 @@ import {
 import Logo from "@/links/Logo";
 
 const sidebarItems = [
-  { name: "Popular Products", icon: Star, href: "/popular" },
+  { name: "Popular Products", icon: Star, href: "/" },
   { name: "Fashion & Clothing", icon: Shirt, href: "/clothes" },
   { name: "Beauty & Makeup", icon: Sparkles, href: "/makeup" },
 ];
@@ -25,12 +25,12 @@ function Sidebar() {
     e.preventDefault();
     if (searchQuery.trim()) {
       // Navigate to a search results page or filter current page
-      navigate(`/popular?search=${encodeURIComponent(searchQuery.trim())}`);
+      navigate(`/?search=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
 
   const handleViewAllProducts = () => {
-    navigate('/popular');
+    navigate('/');
   };
 
   return (
@@ -65,7 +65,7 @@ function Sidebar() {
 
         <nav className="space-y-2">
           {sidebarItems.map((item) => {
-            const isActive = location.pathname === item.href;
+            const isActive = location.pathname === item.href || (item.href === "/" && location.pathname === "/popular");
             return (
               <Link
                 key={item.name}
