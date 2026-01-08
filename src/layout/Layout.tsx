@@ -1,15 +1,24 @@
-import NavBar from "@/components/navbar/NavBar";
+import Sidebar from "@/components/sidebar/Sidebar";
+import Header from "@/components/header/Header";
 import ProjectRoutes from "@/routes/ProjectRoutes";
+import { ThemeProvider } from "@/components/theme-provider";
+import { CartProvider } from "@/context/CartContext";
 
 function Layout() {
   return (
-    <>
-      <div className="p-4 md:p-8 sm:p-1 lg:p-10 ">
-        <NavBar />
-
-        <ProjectRoutes />
-      </div>
-    </>
+    <ThemeProvider defaultTheme="light" storageKey="aora-ui-theme">
+      <CartProvider>
+        <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white">
+          <Sidebar />
+          <div className="ml-64">
+            <Header />
+            <main className="p-6">
+              <ProjectRoutes />
+            </main>
+          </div>
+        </div>
+      </CartProvider>
+    </ThemeProvider>
   );
 }
 

@@ -4,15 +4,15 @@ export const navlinks = [
     href: "/",
   },
   {
-    name: "Projects",
-    href: "/projects",
+    name: "Products",
+    href: "/products",
   },
   {
-    name: "About",
-    href: "/about",
+    name: "Bento Grid",
+    href: "/bento",
   },
   {
-    name: "Contact",
-    href: "/contact",
+    name: "Cart Demo",
+    href: "/cart-demo",
   },
 ];
